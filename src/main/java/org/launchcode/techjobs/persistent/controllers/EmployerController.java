@@ -20,6 +20,17 @@ public class EmployerController {
     private EmployerRepository employerRepository;
 
 
+    @RequestMapping("")
+    public String index(Model model) {
+
+        model.addAttribute("title", "My Jobs");
+        model.addAttribute("employer", employerRepository.findAll());
+
+
+        return "index";
+    }
+
+
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
         model.addAttribute(new Employer());
@@ -33,7 +44,7 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }
-        employerRepository.save(new Job());
+        employerRepository.save(newEmployer);
         return "redirect:";
     }
 
@@ -52,6 +63,7 @@ public class EmployerController {
 
     @GetMapping("/employers")
     public String displayAllEmployers(Model model) {
+        model.addAttribute("title", "All Employers");
         model.addAttribute("employers", employerRepository.findAll());
         return "employers/index";
     }
